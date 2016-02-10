@@ -1,0 +1,9 @@
+[{
+  "gitProjectName": "conference-app",
+  "gitRepositoryUrl": "https://github.com/codecentric/conference-app",
+  "rootWorkDirectory": "app"
+}, {
+  "gitProjectName": "conference-app",
+  "gitRepositoryUrl": "https://github.com/codecentric/conference-app",
+  "rootWorkDirectory": "monitoring"
+}]
