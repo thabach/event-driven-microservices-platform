@@ -1,0 +1,79 @@
+[{
+  "projectname": "dfl-base",
+  "ci": true,
+  "deployment": false
+}, {
+  "projectname": "digitalfw-common",
+  "ci": true,
+  "deployment": false
+}, {
+  "projectname": "digitalfw-login",
+  "ci": true,
+  "deployment": false
+}, {
+  "projectname": "fs-linkchecker",
+  "ci": true,
+  "deployment": false
+}, {
+  "projectname": "fs-modulekit",
+  "ci": true,
+  "deployment": false
+}, {
+  "projectname": "content-WebService-DAO",
+  "ci": true,
+  "deployment": false
+}, {
+  "projectname": "digitalfw-appliance",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl.digital-fw",
+  "artifactid": "digitalfw-appliance"
+}, {
+  "projectname": "digitalfw-live",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl.digital-fw",
+  "artifactid": "digitalfw-live"
+}, {
+  "projectname": "news-Content-WebService",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl",
+  "artifactid": "news-Content-WebService"
+}, {
+  "projectname": "videos-Content-WebService",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl",
+  "artifactid": "videos-Content-WebService"
+}, {
+  "projectname": "fsSolrSearch",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl.fsSolrSearch",
+  "artifactid": "fsSolrSearch"
+}, {
+  "projectname": "livebox-service",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl",
+  "artifactid": "livebox-service"
+}, {
+  "projectname": "um-data-service",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl",
+  "artifactid": "um-data-service"
+}, {
+  "projectname": "onet-pl-redirect",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl-digital-sports",
+  "artifactid": "onet-pl-redirect"
+}, {
+  "projectname": "spieltagsservice",
+  "ci": true,
+  "deployment": true,
+  "groupid": "de.dfl.spieltagsservice",
+  "artifactid": "spieltagsservice"
+}]
