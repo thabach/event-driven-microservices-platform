@@ -6,7 +6,7 @@ println "#######################################################################
 println "Reading project configuration from json"
 
 hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
-File file = new File("${workspace}/src/main/groovy/project-configuration.json")
+File file = new File("${workspace}/src/main/groovy/6-edmp-project-configuration.json")
 def slurper = new JsonSlurper()
 def jsonText = file.getText()
 projects = slurper.parseText( jsonText )
