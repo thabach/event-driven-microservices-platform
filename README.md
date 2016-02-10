@@ -24,7 +24,7 @@ Start the machine, using the `--virtualbox-memory` option to increase it’s mem
 I use 6000 MB to accommodate all the docker images.
 
 ```
-# docker-machine create -d virtualbox --virtualbox-memory “6000” default
+# docker-machine create -d virtualbox --virtualbox-memory "6000" default
 Running pre-create checks...
 Creating machine...
 (default) Creating VirtualBox VM...
@@ -56,8 +56,8 @@ Configure shell environment to connect to your new Docker instance
 To get all docker containers up and running use:
 
 ```
-# git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
-# cd docker-ci-tool-stack
+# git clone git@github.com:codecentric/event-driven-microservices-platform.git
+# cd event-driven-microservices-platform
 # docker-compose up
 ```
 
