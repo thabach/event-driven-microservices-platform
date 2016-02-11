@@ -23,7 +23,7 @@ projects.each {
   println "- rootWorkDirectory=${it.rootWorkDirectory}"
   println ""
 
-  def jobNamePrefix = "${gitProjectName}-1-ci"
+  def jobNamePrefix = "${it.gitProjectName}"
   if( rootWorkDirectory.size() > 0 ) {
     jobNamePrefix = "${gitProjectName}-${rootWorkDirectory}"
   }
