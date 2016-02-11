@@ -36,7 +36,12 @@ def createCIJob(def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory)
   println "- rootWorkDirectory  = ${rootWorkDirectory}"
   println "############################################################################################################"
 
-  job("${gitProjectName}-1-ci") {
+  def jobName = "${gitProjectName}-1-ci"
+  if( rootWorkDirectory.size() > 0 ) {
+    jobName = "${gitProjectName}-${rootWorkDirectory}-1-ci"
+  }
+
+  job(jobName) {
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
       stringParam("REPOSITORY_URL", "http://\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_ADDR}:\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
