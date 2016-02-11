@@ -22,7 +22,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/codecentric/event-driven-microservices-platform</url>
+        <url>https://github.com/codecentric/event-driven-microservices-platform.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -46,7 +46,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.40">
-      <targets>jenkins/seedjobs/6-edmp-seed-job.groovy</targets>
+      <targets>jenkins/seedjobs/1-edmp-seed-job.groovy</targets>
       <usingScriptText>false</usingScriptText>
       <ignoreExisting>false</ignoreExisting>
       <removedJobAction>DELETE</removedJobAction>

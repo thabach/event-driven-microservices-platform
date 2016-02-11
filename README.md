@@ -14,8 +14,8 @@ Since all containers run in a single VM (virtualbox), this VM needs enough memor
 Ensure that you are using version 0.3.0 or greater of `docker-machine`
 
 ```
-# docker-machine version
-docker-machine version 0.5.4, build
+$ docker-machine version
+# docker-machine version 0.5.4, build
 ```
 
 ### Step 1 - Start Docker Machine
@@ -24,7 +24,7 @@ Start the machine, using the `--virtualbox-memory` option to increase it’s mem
 I use 6000 MB to accommodate all the docker images.
 
 ```
-# docker-machine create -d virtualbox --virtualbox-memory "6000" default
+$ docker-machine create -d virtualbox --virtualbox-memory "6000" default
 Running pre-create checks...
 Creating machine...
 (default) Creating VirtualBox VM...
@@ -48,7 +48,7 @@ To see how to connect Docker to this machine, run: docker-machine env default
 Configure shell environment to connect to your new Docker instance
 
 ```
-# eval “$(docker-machine env default)”
+$ eval “$(docker-machine env default)”
 ```
 
 ## Getting started
@@ -56,9 +56,9 @@ Configure shell environment to connect to your new Docker instance
 To get all docker containers up and running use:
 
 ```
-# git clone git@github.com:codecentric/event-driven-microservices-platform.git
-# cd event-driven-microservices-platform
-# docker-compose up
+$ git clone git@github.com:codecentric/event-driven-microservices-platform.git
+$ cd event-driven-microservices-platform
+$ docker-compose up
 ```
 
 ## Tools
@@ -86,4 +86,11 @@ $ docker-machine restart default
 
 # Refresh your environment settings
 $ eval $(docker-machine env default)
+```
+
+### No Internet Connection from Docker Container
+
+```
+$ sudo udhcpc
+$ sudo /etc/init.d/docker restart
 ```
