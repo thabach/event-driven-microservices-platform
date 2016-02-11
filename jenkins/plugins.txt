@@ -19,3 +19,5 @@ chucknorris:0.9.1
 xvfb:1.1.2
 ws-cleanup:0.28
 ansicolor:0.4.2
+junit:1.6
+xunit:1.100
