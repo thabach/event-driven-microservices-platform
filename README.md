@@ -91,6 +91,12 @@ $ eval $(docker-machine env default)
 ### No Internet Connection from Docker Container
 
 ```
+# Login to Docker VM
+$ docker-machine ssh default
+
+# Run DHCP client
 $ sudo udhcpc
+
+# Restart docker process
 $ sudo /etc/init.d/docker restart
 ```
