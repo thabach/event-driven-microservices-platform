@@ -24,8 +24,8 @@ projects.each {
   println ""
 
   def jobNamePrefix = "${it.gitProjectName}"
-  if( rootWorkDirectory.size() > 0 ) {
-    jobNamePrefix = "${gitProjectName}-${rootWorkDirectory}"
+  if( it.rootWorkDirectory.size() > 0 ) {
+    jobNamePrefix = "${it.gitProjectName}-${it.rootWorkDirectory}"
   }
 
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
