@@ -23,25 +23,27 @@ projects.each {
   println "- rootWorkDirectory=${it.rootWorkDirectory}"
   println ""
 
-  createCIJob(it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
+  def jobNamePrefix = "${gitProjectName}-1-ci"
+  if( rootWorkDirectory.size() > 0 ) {
+    jobNamePrefix = "${gitProjectName}-${rootWorkDirectory}"
+  }
+
+  createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
+  createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
 
 }
 
-def createCIJob(def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
+def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
 
   println "############################################################################################################"
   println "Creating CI Job:"
+  println "- jobNamePrefix      = ${jobNamePrefix}"
   println "- gitProjectName     = ${gitProjectName}"
   println "- gitRepositoryUrl   = ${gitRepositoryUrl}"
   println "- rootWorkDirectory  = ${rootWorkDirectory}"
   println "############################################################################################################"
 
-  def jobName = "${gitProjectName}-1-ci"
-  if( rootWorkDirectory.size() > 0 ) {
-    jobName = "${gitProjectName}-${rootWorkDirectory}-1-ci"
-  }
-
-  job(jobName) {
+  job("${jobNamePrefix}-1-ci") {
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
       stringParam("REPOSITORY_URL", "http://\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_ADDR}:\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
@@ -83,32 +85,31 @@ def createCIJob(def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory)
       chucknorris()
       archiveJunit('**/target/surefire-reports/*.xml')
       publishCloneWorkspace('**', '', 'Any', 'TAR', true, null)
-      /**
       downstreamParameterized {
-        trigger("${gitProjectName}-app-2-sonar") {
+        trigger("${jobNamePrefix}-2-sonar") {
           currentBuild()
         }
       }
-      */
     }
   }
 }
 
-def createSonarJob(def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
+def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
 
   println "############################################################################################################"
   println "Creating Sonar Job:"
+  println "- jobNamePrefix      = ${jobNamePrefix}"
   println "- gitProjectName     = ${gitProjectName}"
   println "- gitRepositoryUrl   = ${gitRepositoryUrl}"
   println "- rootWorkDirectory  = ${rootWorkDirectory}"
   println "############################################################################################################"
 
-  job("conference-app-2-sonar") {
+  job("${jobNamePrefix}-2-sonar") {
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
     }
     scm {
-      cloneWorkspace("conference-app-1-ci")
+      cloneWorkspace("${jobNamePrefix}-1-ci")
     }
     wrappers {
       colorizeOutput()
@@ -118,14 +119,14 @@ def createSonarJob(def gitProjectName, def gitRepositoryUrl, def rootWorkDirecto
       maven {
         goals('org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar')
         mavenInstallation('Maven 3.3.3')
-        rootPOM('app/pom.xml')
+        rootPOM("${rootWorkDirectory}/pom.xml")
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
       }
       maven {
         goals('sonar:sonar -Psonar')
         mavenInstallation('Maven 3.3.3')
-        rootPOM('app/pom.xml')
+        rootPOM("${rootWorkDirectory}/pom.xml")
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
       }
