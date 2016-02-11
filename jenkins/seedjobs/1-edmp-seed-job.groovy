@@ -44,7 +44,7 @@ def createCIJob(def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory)
   job(jobName) {
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
-      stringParam("REPOSITORY_URL", "http://\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_ADDR}:\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
+      stringParam("REPOSITORY_URL", "http://\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_ADDR}:\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
     }
     scm {
       git {
