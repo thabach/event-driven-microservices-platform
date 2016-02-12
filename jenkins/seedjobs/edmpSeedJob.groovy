@@ -170,14 +170,22 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
       maven {
         goals('org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar')
         mavenInstallation('Maven 3.3.3')
-        rootPOM("${rootWorkDirectory}pom.xml")
+        if( "${rootWorkDirectory}".size() > 0 ) {
+          rootPOM("${rootWorkDirectory}/pom.xml")
+        } else {
+          rootPOM("pom.xml")
+        }
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
       }
       maven {
         goals('sonar:sonar -Psonar')
         mavenInstallation('Maven 3.3.3')
-        rootPOM("${rootWorkDirectory}pom.xml")
+        if( "${rootWorkDirectory}".size() > 0 ) {
+          rootPOM("${rootWorkDirectory}/pom.xml")
+        } else {
+          rootPOM("pom.xml")
+        }
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
       }
