@@ -127,7 +127,7 @@ cat > public-repository.json <<- EOM
 "data":{"id":"public","name":"Public Repositories","format":"maven2","exposed":true,"provider":"maven2","repositories":[{"id":"releases"},{"id":"snapshots"},{"id":"thirdparty"},{"id":"central"},{"id":"jboss-ea-repository"},{"id":"jboss-ga-repository"},{"id":"apache-snapshots"},{"id":"codehaus-snapshots"},{"id":"spring-milestones"},{"id":"spring-snapshots"}]}}
 EOM
 
-curl -i -H "Accept: application/json" -H "Content-Type: application/json" -f -X PUT -v -d "@public-repository.json" -u admin:admin123 $PUT_PUBLIC_REPO_URL
+curl -i -s -o /dev/null -H "Accept: application/json" -H "Content-Type: application/json" -f -X PUT -v -d "@public-repository.json" -u admin:admin123 $PUT_PUBLIC_REPO_URL
 
 echo ""
 echo "####################################################################################"
