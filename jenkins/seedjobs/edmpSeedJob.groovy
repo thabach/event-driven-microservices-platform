@@ -42,6 +42,34 @@ projects.each {
   createAdminDockerJob()
 }
 
+def createListViews(def title, def jobDescription, def reqularExpression) {
+
+  println "############################################################################################################"
+  println "Create ListView:"
+  println "- title             = ${title}"
+  println "- description       = ${jobDescription}"
+  println "- reqularExpression = ${reqularExpression}"
+  println "############################################################################################################"
+
+  listView(title) {
+      description(jobDescription)
+      filterBuildQueue()
+      filterExecutors()
+      jobs {
+          regex(reqularExpression)
+      }
+      columns {
+          buildButton()
+          weather()
+          status()
+          name()
+          lastSuccess()
+          lastFailure()
+          lastDuration()
+      }
+  }
+}
+
 def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
 
   println "############################################################################################################"
@@ -167,33 +195,5 @@ def createAdminDockerJob() {
     publishers {
       chucknorris()
     }
-  }
-}
-
-def createListViews(def title, def jobDescription, def reqularExpression) {
-
-  println "############################################################################################################"
-  println "Create ListView:"
-  println "- title             = ${title}"
-  println "- description       = ${jobDescription}"
-  println "- reqularExpression = ${reqularExpression}"
-  println "############################################################################################################"
-
-  listView(title) {
-      description(jobDescription)
-      filterBuildQueue()
-      filterExecutors()
-      jobs {
-          regex(reqularExpression)
-      }
-      columns {
-          buildButton()
-          weather()
-          status()
-          name()
-          lastSuccess()
-          lastFailure()
-          lastDuration()
-      }
   }
 }
