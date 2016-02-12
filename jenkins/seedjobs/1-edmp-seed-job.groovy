@@ -15,9 +15,9 @@ println "#######################################################################
 println "Create Default Views"
 println ""
 
-createListView("Admin", "Contains all admin jobs", "admin-.*")
-createListView("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
-createListView("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
+createListViews("Admin", "Contains all admin jobs", "admin-.*")
+createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
+createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
 println "############################################################################################################"
 println "Iterating all projects"
@@ -169,22 +169,22 @@ def createAdminDockerJob() {
   }
 }
 
-def createListView(def title, def description, def reqularExpression) {
+def createListViews(def title, def jobDescription, def reqularExpression) {
 
   println "############################################################################################################"
   println "Create ListView:"
   println "- title             = ${title}"
-  println "- description       = ${description}"
+  println "- description       = ${jobDescription}"
   println "- reqularExpression = ${reqularExpression}"
   println "############################################################################################################"
 
   listView(title) {
-      description(description)
+      description(jobDescription)
       filterBuildQueue()
       filterExecutors()
-      /**jobs {
+      jobs {
           regex(reqularExpression)
-      }*/
+      }
       columns {
           buildButton()
           weather()
