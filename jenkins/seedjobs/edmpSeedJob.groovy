@@ -104,7 +104,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
     }
     steps {
       maven {
-          goals('clean versions:set -DnewVersion=\${BUILD_NUMBER}')
+          goals('clean versions:set -DnewVersion=\${BUILD_NUMBER} -U')
           mavenInstallation('Maven 3.3.3')
           if( "${rootWorkDirectory}".size() > 0 ) {
             rootPOM("${rootWorkDirectory}/pom.xml")
@@ -115,7 +115,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
           providedGlobalSettings('MyGlobalSettings')
       }
       maven {
-        goals('clean deploy')
+        goals('clean deploy -U')
         mavenInstallation('Maven 3.3.3')
         if( "${rootWorkDirectory}".size() > 0 ) {
           rootPOM("${rootWorkDirectory}/pom.xml")
@@ -168,7 +168,7 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
     }
     steps {
       maven {
-        goals('org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar')
+        goals('org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar -U')
         mavenInstallation('Maven 3.3.3')
         if( "${rootWorkDirectory}".size() > 0 ) {
           rootPOM("${rootWorkDirectory}/pom.xml")
@@ -179,7 +179,7 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
         providedGlobalSettings('MyGlobalSettings')
       }
       maven {
-        goals('sonar:sonar -Psonar')
+        goals('sonar:sonar -Psonar -U')
         mavenInstallation('Maven 3.3.3')
         if( "${rootWorkDirectory}".size() > 0 ) {
           rootPOM("${rootWorkDirectory}/pom.xml")
