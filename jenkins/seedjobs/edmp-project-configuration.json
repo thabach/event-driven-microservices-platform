@@ -1,11 +1,11 @@
 [{
   "gitProjectName": "conference-app",
   "gitRepositoryUrl": "https://github.com/codecentric/conference-app",
-  "rootWorkDirectory": "app"
+  "rootWorkDirectory": "app/"
 }, {
   "gitProjectName": "conference-app",
   "gitRepositoryUrl": "https://github.com/codecentric/conference-app",
-  "rootWorkDirectory": "monitoring"
+  "rootWorkDirectory": "monitoring/"
 }, {
   "gitProjectName": "edmp-monitoring",
   "gitRepositoryUrl": "https://github.com/codecentric/edmp-monitoring",

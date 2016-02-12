@@ -42,34 +42,6 @@ projects.each {
   createAdminDockerJob()
 }
 
-def createListViews(def title, def jobDescription, def reqularExpression) {
-
-  println "############################################################################################################"
-  println "Create ListView:"
-  println "- title             = ${title}"
-  println "- description       = ${jobDescription}"
-  println "- reqularExpression = ${reqularExpression}"
-  println "############################################################################################################"
-
-  listView(title) {
-      description(jobDescription)
-      filterBuildQueue()
-      filterExecutors()
-      jobs {
-          regex(reqularExpression)
-      }
-      columns {
-          buildButton()
-          weather()
-          status()
-          name()
-          lastSuccess()
-          lastFailure()
-          lastDuration()
-      }
-  }
-}
-
 def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
 
   println "############################################################################################################"
@@ -106,14 +78,14 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
       maven {
           goals('clean versions:set -DnewVersion=\${BUILD_NUMBER}')
           mavenInstallation('Maven 3.3.3')
-          rootPOM("${rootWorkDirectory}/pom.xml")
+          rootPOM("${rootWorkDirectory}pom.xml")
           mavenOpts('-Xms512m -Xmx1024m')
           providedGlobalSettings('MyGlobalSettings')
       }
       maven {
         goals('clean deploy')
         mavenInstallation('Maven 3.3.3')
-        rootPOM("${rootWorkDirectory}/pom.xml")
+        rootPOM("${rootWorkDirectory}pom.xml")
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
       }
@@ -162,14 +134,14 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
       maven {
         goals('org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar')
         mavenInstallation('Maven 3.3.3')
-        rootPOM("${rootWorkDirectory}/pom.xml")
+        rootPOM("${rootWorkDirectory}pom.xml")
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
       }
       maven {
         goals('sonar:sonar -Psonar')
         mavenInstallation('Maven 3.3.3')
-        rootPOM("${rootWorkDirectory}/pom.xml")
+        rootPOM("${rootWorkDirectory}pom.xml")
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
       }
@@ -195,5 +167,33 @@ def createAdminDockerJob() {
     publishers {
       chucknorris()
     }
+  }
+}
+
+def createListViews(def title, def jobDescription, def reqularExpression) {
+
+  println "############################################################################################################"
+  println "Create ListView:"
+  println "- title             = ${title}"
+  println "- description       = ${jobDescription}"
+  println "- reqularExpression = ${reqularExpression}"
+  println "############################################################################################################"
+
+  listView(title) {
+      description(jobDescription)
+      filterBuildQueue()
+      filterExecutors()
+      jobs {
+          regex(reqularExpression)
+      }
+      columns {
+          buildButton()
+          weather()
+          status()
+          name()
+          lastSuccess()
+          lastFailure()
+          lastDuration()
+      }
   }
 }
