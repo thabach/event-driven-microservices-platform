@@ -15,8 +15,9 @@ println "#######################################################################
 println "Create Default Views"
 println ""
 
-createListView("admin", "Contains all admin jobs", "admin-.*")
-createListView("edmp", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
+createListView("Admin", "Contains all admin jobs", "admin-.*")
+createListView("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
+createListView("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
 println "############################################################################################################"
 println "Iterating all projects"
