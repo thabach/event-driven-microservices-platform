@@ -12,6 +12,7 @@ RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 
 # Adding default Jenkins Jobs
 COPY jobs/edmp-seed-job.xml /usr/share/jenkins/ref/jobs/edmp-seed-job/config.xml
+COPY jobs/admin-add-spring-repos-to-nexus.xml /usr/share/jenkins/ref/jobs/admin-add-spring-repos-to-nexus/config.xml
 
 ############################################
 # Configure Jenkins
