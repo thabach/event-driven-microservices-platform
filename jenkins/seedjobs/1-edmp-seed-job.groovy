@@ -182,9 +182,9 @@ def createListView(def title, def description, def reqularExpression) {
       description(description)
       filterBuildQueue()
       filterExecutors()
-      jobs {
+      /**jobs {
           regex(reqularExpression)
-      }
+      }*/
       columns {
           buildButton()
           weather()
