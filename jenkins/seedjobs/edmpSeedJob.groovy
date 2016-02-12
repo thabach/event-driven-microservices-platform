@@ -234,6 +234,18 @@ def createAdminNexusSpringRepoJob() {
     logRotator {
         numToKeep(10)
     }
+    triggers {
+      scm('5/H * * * *')
+    }
+    scm {
+      git {
+        remote {
+          url("https://github.com/codecentric/event-driven-microservices-platform")
+        }
+        createTag(false)
+        clean()
+      }
+    }
     steps {
       steps {
         shell('sh jenkins/jobs/scripts/configureNexusSpringMilestoneRepositories.sh')
