@@ -12,6 +12,13 @@ def jsonText = file.getText()
 projects = slurper.parseText( jsonText )
 
 println "############################################################################################################"
+println "Create Default Views"
+println ""
+
+createListView("admin", "Contains all admin jobs", "admin-.*")
+createListView("edmp", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
+
+println "############################################################################################################"
 println "Iterating all projects"
 println ""
 
@@ -158,5 +165,33 @@ def createAdminDockerJob() {
     publishers {
       chucknorris()
     }
+  }
+}
+
+def createListView(def title, def description, def reqularExpression) {
+
+  println "############################################################################################################"
+  println "Create ListView:"
+  println "- title             = ${title}"
+  println "- description       = ${description}"
+  println "- reqularExpression = ${reqularExpression}"
+  println "############################################################################################################"
+
+  listView(title) {
+      description(description)
+      filterBuildQueue()
+      filterExecutors()
+      jobs {
+          regex(reqularExpression)
+      }
+      columns {
+          buildButton()
+          weather()
+          status()
+          name()
+          lastSuccess()
+          lastFailure()
+          lastDuration()
+      }
   }
 }
