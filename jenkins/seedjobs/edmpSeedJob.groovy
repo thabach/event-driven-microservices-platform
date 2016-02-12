@@ -81,6 +81,9 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
   println "############################################################################################################"
 
   job("${jobNamePrefix}-1-ci") {
+    logRotator {
+        numToKeep(10)
+    }
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
       stringParam("REPOSITORY_URL", "http://\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_ADDR}:\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
@@ -156,6 +159,9 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
   println "############################################################################################################"
 
   job("${jobNamePrefix}-2-sonar") {
+    logRotator {
+        numToKeep(10)
+    }
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
     }
@@ -203,9 +209,33 @@ def createAdminDockerJob() {
   println "############################################################################################################"
 
   job("admin-docker-test") {
+    logRotator {
+        numToKeep(10)
+    }
     steps {
       steps {
         shell('sudo /usr/bin/docker version')
+      }
+    }
+    publishers {
+      chucknorris()
+    }
+  }
+}
+
+def createAdminNexusSpringRepoJob() {
+
+  println "############################################################################################################"
+  println "Creating Admin Job to configure Spring Milestone Repositories in Nexus:"
+  println "############################################################################################################"
+
+  job("admin-add-spring-repos-to-nexus") {
+    logRotator {
+        numToKeep(10)
+    }
+    steps {
+      steps {
+        shell('sh jenkins/jobs/scripts/configureNexusSpringMilestoneRepositories.sh')
       }
     }
     publishers {
