@@ -115,7 +115,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
           providedGlobalSettings('MyGlobalSettings')
       }
       maven {
-        goals('clean deploy -U')
+        goals('clean deploy -U -DaltDeploymentRepository=nexus-release-repository::default::$REPOSITORY_URL')
         mavenInstallation('Maven 3.3.3')
         if( "${rootWorkDirectory}".size() > 0 ) {
           rootPOM("${rootWorkDirectory}/pom.xml")
