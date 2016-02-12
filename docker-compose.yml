@@ -10,6 +10,18 @@ jenkins:
   links:
     - nexus:nexus
     - sonar:sonar
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/local/bin/docker:/usr/bin/docker
+
+registry:
+  image: registry
+  environment:
+    - STORAGE_PATH=/registry
+  volumes:
+    - registry-stuff:/registry
+  ports:
+    - "5000:5000"
 
 sonar:
   build: ./sonar

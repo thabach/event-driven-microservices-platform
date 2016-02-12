@@ -12,7 +12,7 @@ github:1.14.0
 plain-credentials:1.1
 cloudbees-credentials:3.3
 config-file-provider:2.10.0
-token-macro:1.5.1
+token-macro:1.10
 parameterized-trigger:2.29
 clone-workspace-scm:0.6
 chucknorris:0.9.1
@@ -21,3 +21,5 @@ ws-cleanup:0.28
 ansicolor:0.4.2
 junit:1.6
 xunit:1.100
+docker-build-publish:1.1
+docker-commons:1.3

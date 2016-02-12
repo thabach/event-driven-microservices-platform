@@ -30,7 +30,7 @@ projects.each {
 
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
-
+  createAdminDockerJob()
 }
 
 def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
@@ -135,6 +135,24 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
         rootPOM("${rootWorkDirectory}/pom.xml")
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
+      }
+    }
+    publishers {
+      chucknorris()
+    }
+  }
+}
+
+def createAdminDockerJob() {
+
+  println "############################################################################################################"
+  println "Creating Admin Docker Test Job:"
+  println "############################################################################################################"
+
+  job("admin-docker-test") {
+    steps {
+      steps {
+        shell('sudo /usr/bin/docker version')
       }
     }
     publishers {
