@@ -11,7 +11,7 @@ COPY plugins.txt /var/jenkins_home/plugins.txt
 RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 
 # Adding default Jenkins Jobs
-COPY jobs/1-edmp-seed-job.xml /usr/share/jenkins/ref/jobs/1-edmp-seed-job/config.xml
+COPY jobs/edmp-seed-job.xml /usr/share/jenkins/ref/jobs/edmp-seed-job/config.xml
 
 ############################################
 # Configure Jenkins
