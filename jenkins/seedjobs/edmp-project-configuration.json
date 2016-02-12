@@ -6,4 +6,12 @@
   "gitProjectName": "conference-app",
   "gitRepositoryUrl": "https://github.com/codecentric/conference-app",
   "rootWorkDirectory": "monitoring"
+}, {
+  "gitProjectName": "edmp-monitoring",
+  "gitRepositoryUrl": "https://github.com/codecentric/edmp-monitoring",
+  "rootWorkDirectory": ""
+}, {
+  "gitProjectName": "edmp-config-server",
+  "gitRepositoryUrl": "https://github.com/codecentric/edmp-config-server",
+  "rootWorkDirectory": ""
 }]
