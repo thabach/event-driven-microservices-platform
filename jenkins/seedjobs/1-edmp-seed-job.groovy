@@ -12,9 +12,10 @@ def jsonText = file.getText()
 projects = slurper.parseText( jsonText )
 
 println "############################################################################################################"
-println "Create Default Views"
+println "Create Default Views and Admin Jobs"
 println ""
 
+createAdminDockerJob()
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
@@ -39,6 +40,34 @@ projects.each {
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createAdminDockerJob()
+}
+
+def createListViews(def title, def jobDescription, def reqularExpression) {
+
+  println "############################################################################################################"
+  println "Create ListView:"
+  println "- title             = ${title}"
+  println "- description       = ${jobDescription}"
+  println "- reqularExpression = ${reqularExpression}"
+  println "############################################################################################################"
+
+  listView(title) {
+      description(jobDescription)
+      filterBuildQueue()
+      filterExecutors()
+      jobs {
+          regex(reqularExpression)
+      }
+      columns {
+          buildButton()
+          weather()
+          status()
+          name()
+          lastSuccess()
+          lastFailure()
+          lastDuration()
+      }
+  }
 }
 
 def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def rootWorkDirectory) {
@@ -166,33 +195,5 @@ def createAdminDockerJob() {
     publishers {
       chucknorris()
     }
-  }
-}
-
-def createListViews(def title, def jobDescription, def reqularExpression) {
-
-  println "############################################################################################################"
-  println "Create ListView:"
-  println "- title             = ${title}"
-  println "- description       = ${jobDescription}"
-  println "- reqularExpression = ${reqularExpression}"
-  println "############################################################################################################"
-
-  listView(title) {
-      description(jobDescription)
-      filterBuildQueue()
-      filterExecutors()
-      jobs {
-          regex(reqularExpression)
-      }
-      columns {
-          buildButton()
-          weather()
-          status()
-          name()
-          lastSuccess()
-          lastFailure()
-          lastDuration()
-      }
   }
 }
