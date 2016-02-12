@@ -16,6 +16,7 @@ println "Create Default Views and Admin Jobs"
 println ""
 
 createAdminDockerJob()
+createAdminNexusSpringRepoJob()
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
