@@ -235,7 +235,7 @@ def createAdminNexusSpringRepoJob() {
         numToKeep(10)
     }
     triggers {
-      scm('5/H * * * *')
+      scm('H/5 * * * *')
     }
     scm {
       git {
