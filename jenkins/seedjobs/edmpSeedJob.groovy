@@ -44,7 +44,6 @@ projects.each {
 
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
-  createAdminDockerJob()
 }
 
 def createListViews(def title, def jobDescription, def reqularExpression) {
