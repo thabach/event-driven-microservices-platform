@@ -15,16 +15,15 @@ Ensure that you are using version 0.3.0 or greater of `docker-machine`
 
 ```
 $ docker-machine version
-# docker-machine version 0.5.4, build
+docker-machine version 0.6.0, build e27fb87
 ```
 
 ### Step 1 - Start Docker Machine
 
-Start the machine, using the `--virtualbox-memory` option to increase it’s memory.
-I use 6000 MB to accommodate all the docker images.
+Start the machine, using the `--virtualbox-memory` option to increase it’s memory. I also recommend using the `--virtualbox-disk-size` option to increate it's disk size. I use 6000 MB to accommodate all the docker images and 40000 MB to allow for enough disk space.
 
 ```
-$ docker-machine create -d virtualbox --virtualbox-memory "6000" default
+$ docker-machine create -d virtualbox --virtualbox-memory "6000" --virtualbox-disk-size "40000" default
 Running pre-create checks...
 Creating machine...
 (default) Creating VirtualBox VM...
@@ -48,7 +47,7 @@ To see how to connect Docker to this machine, run: docker-machine env default
 Configure shell environment to connect to your new Docker instance
 
 ```
-$ eval “$(docker-machine env default)”
+$ eval "$(docker-machine env default)"
 ```
 
 ## Getting started
