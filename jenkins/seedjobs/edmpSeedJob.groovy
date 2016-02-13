@@ -19,7 +19,8 @@ createAdminNexusSpringRepoJob()
 
 createDockerJob("admin-docker-version-test", "sudo /usr/bin/docker version")
 createDockerJob("admin-docker-build-jenkins-container-test", "cd jenkins && sudo /usr/bin/docker build -t jenkins .")
-createDockerJob("admin-docker-start-jenkins-container-test", "sudo /usr/bin/docker run -d -p=28080:8080 jenkins")
+createDockerJob("admin-docker-start-jenkins-container-test", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins")
+createDockerJob("admin-docker-stop-jenkins-container-test", "sudo /usr/bin/docker stop edmp_jenkins && sudo /usr/bin/docker rm edmp_jenkins")
 
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
