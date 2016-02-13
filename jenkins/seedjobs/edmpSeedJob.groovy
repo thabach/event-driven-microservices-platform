@@ -17,6 +17,7 @@ println ""
 
 createAdminDockerJob()
 createAdminNexusSpringRepoJob()
+createAdminDockerBuildContainerJob()
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
@@ -206,16 +207,46 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
 def createAdminDockerJob() {
 
   println "############################################################################################################"
-  println "Creating Admin Docker Test Job:"
+  println "Creating Admin Docker Test Job to test Docker Version:"
   println "############################################################################################################"
 
-  job("admin-docker-test") {
+  job("admin-docker-version-test") {
     logRotator {
         numToKeep(10)
     }
     steps {
       steps {
         shell('sudo /usr/bin/docker version')
+      }
+    }
+    publishers {
+      chucknorris()
+    }
+  }
+}
+
+def createAdminDockerBuildContainerJob() {
+
+  println "############################################################################################################"
+  println "Creating Admin Job to Build Docker container:"
+  println "############################################################################################################"
+
+  job("admin-docker-build-container-test") {
+    logRotator {
+        numToKeep(10)
+    }
+    scm {
+      git {
+        remote {
+          url("https://github.com/codecentric/event-driven-microservices-platform")
+        }
+        createTag(false)
+        clean()
+      }
+    }
+    steps {
+      steps {
+        shell('cd jenkins && sudo /usr/bin/docker build -t jenkins .')
       }
     }
     publishers {
