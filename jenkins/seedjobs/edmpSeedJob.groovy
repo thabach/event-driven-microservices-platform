@@ -15,9 +15,12 @@ println "#######################################################################
 println "Create Default Views and Admin Jobs"
 println ""
 
-createAdminDockerJob()
 createAdminNexusSpringRepoJob()
-createAdminDockerBuildContainerJob()
+
+createDockerJob("admin-docker-version-test", "sudo /usr/bin/docker version")
+createDockerJob("admin-docker-build-jenkins-container-test", "cd jenkins && sudo /usr/bin/docker build -t jenkins .")
+createDockerJob("admin-docker-start-jenkins-container-test", "sudo /usr/bin/docker run -d -p=28080:8080 jenkins")
+
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
@@ -204,34 +207,13 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
   }
 }
 
-def createAdminDockerJob() {
+def createDockerJob(def jobName, def shellCommand) {
 
   println "############################################################################################################"
-  println "Creating Admin Docker Test Job to test Docker Version:"
+  println "Creating Admin Job ${jobName}"
   println "############################################################################################################"
 
-  job("admin-docker-version-test") {
-    logRotator {
-        numToKeep(10)
-    }
-    steps {
-      steps {
-        shell('sudo /usr/bin/docker version')
-      }
-    }
-    publishers {
-      chucknorris()
-    }
-  }
-}
-
-def createAdminDockerBuildContainerJob() {
-
-  println "############################################################################################################"
-  println "Creating Admin Job to Build Docker container:"
-  println "############################################################################################################"
-
-  job("admin-docker-build-container-test") {
+  job(jobName) {
     logRotator {
         numToKeep(10)
     }
@@ -246,7 +228,7 @@ def createAdminDockerBuildContainerJob() {
     }
     steps {
       steps {
-        shell('cd jenkins && sudo /usr/bin/docker build -t jenkins .')
+        shell(shellCommand)
       }
     }
     publishers {
