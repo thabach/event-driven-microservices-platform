@@ -18,17 +18,18 @@ println ""
 createAdminNexusSpringRepoJob()
 
 def edmpGitUrl="https://github.com/codecentric/event-driven-microservices-platform"
-createDockerJob("docker-admin-version", "sudo /usr/bin/docker version", edmpGitUrl)
-createDockerJob("docker-admin-list-running-container", "sudo /usr/bin/docker ps", edmpGitUrl)
-createDockerJob("docker-admin-list-images", "sudo /usr/bin/docker images", edmpGitUrl)
-createDockerJob("docker-admin-build-jenkins-container", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
-createDockerJob("docker-admin-start-jenkins-container", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
-createDockerJob("docker-admin-stop-jenkins-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
+createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", edmpGitUrl)
+createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", edmpGitUrl)
+createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", edmpGitUrl)
+createDockerJob("docker-admin-build-jenkins-container", "", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
+createDockerJob("docker-admin-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
+createDockerJob("docker-admin-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
 
 def conferenceAppGitUrl="https://github.com/codecentric/conference-app"
-createDockerJob("docker-conference-app-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
-createDockerJob("docker-conference-app-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
-createDockerJob("docker-conference-app-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', conferenceAppGitUrl)
+def workspaceDirectory="conference-app-app-1-ci"
+createDockerJob("docker-conference-app-build-container", workspaceDirectory, "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
+createDockerJob("docker-conference-app-start-container", workspaceDirectory, "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
+createDockerJob("docker-conference-app-stop-container", workspaceDirectory, 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', conferenceAppGitUrl)
 
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
@@ -217,10 +218,10 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
   }
 }
 
-def createDockerJob(def jobName, def shellCommand, def gitRepository) {
+def createDockerJob(def jobName, def workspaceDir, def shellCommand, def gitRepository) {
 
   println "############################################################################################################"
-  println "Creating Docker Job ${jobName} for gitRepository=${gitRepository}"
+  println "Creating Docker Job ${jobName} for gitRepository=${gitRepository} and workspaceDir=${workspaceDir}"
   println "############################################################################################################"
 
   job(jobName) {
@@ -228,8 +229,8 @@ def createDockerJob(def jobName, def shellCommand, def gitRepository) {
         numToKeep(10)
     }
     scm {
-      if( "${jobName}".contains("conference-app") ) {
-        cloneWorkspace("${jobName}-app-1-ci")
+      if( "${workspaceDir}".size() > 0 ) {
+        cloneWorkspace("${workspaceDir}")
       } else {
         git {
           remote {
