@@ -350,7 +350,7 @@
         <url>https://repo.spring.io/milestone/</url>
       </remoteStorage>
       <externalConfiguration>
-        <repositoryPolicy>RELEASES</repositoryPolicy>
+        <repositoryPolicy>RELEASE</repositoryPolicy>
         <checksumPolicy>WARN</checksumPolicy>
         <fileTypeValidation>true</fileTypeValidation>
         <downloadRemoteIndex>true</downloadRemoteIndex>
