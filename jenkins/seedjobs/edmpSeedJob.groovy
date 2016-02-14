@@ -15,8 +15,6 @@ println "#######################################################################
 println "Create Default Views and Admin Jobs"
 println ""
 
-createAdminNexusSpringRepoJob()
-
 def edmpGitUrl="https://github.com/codecentric/event-driven-microservices-platform"
 createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", edmpGitUrl)
 createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", edmpGitUrl)
@@ -244,39 +242,6 @@ def createDockerJob(def jobName, def workspaceDir, def shellCommand, def gitRepo
     steps {
       steps {
         shell(shellCommand)
-      }
-    }
-    publishers {
-      chucknorris()
-    }
-  }
-}
-
-def createAdminNexusSpringRepoJob() {
-
-  println "############################################################################################################"
-  println "Creating Admin Job to configure Spring Milestone Repositories in Nexus:"
-  println "############################################################################################################"
-
-  job("admin-add-spring-repos-to-nexus") {
-    logRotator {
-        numToKeep(10)
-    }
-    triggers {
-      cron('H/5 * * * *')
-    }
-    scm {
-      git {
-        remote {
-          url("https://github.com/codecentric/event-driven-microservices-platform")
-        }
-        createTag(false)
-        clean()
-      }
-    }
-    steps {
-      steps {
-        shell('sh jenkins/jobs/scripts/configureNexusSpringMilestoneRepositories.sh')
       }
     }
     publishers {
