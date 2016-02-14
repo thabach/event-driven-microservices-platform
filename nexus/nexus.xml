@@ -230,6 +230,8 @@
           <memberRepository>central</memberRepository>
           <memberRepository>jboss-ea-repository</memberRepository>
           <memberRepository>jboss-ga-repository</memberRepository>
+          <memberRepository>spring-snapshots</memberRepository>
+          <memberRepository>spring-milestones</memberRepository>
         </memberRepositories>
       </externalConfiguration>
     </repository>
@@ -286,6 +288,69 @@
       </remoteStorage>
       <externalConfiguration>
         <repositoryPolicy>RELEASE</repositoryPolicy>
+        <checksumPolicy>WARN</checksumPolicy>
+        <fileTypeValidation>true</fileTypeValidation>
+        <downloadRemoteIndex>true</downloadRemoteIndex>
+        <artifactMaxAge>-1</artifactMaxAge>
+        <metadataMaxAge>1440</metadataMaxAge>
+        <itemMaxAge>1440</itemMaxAge>
+        <autoBlockActive>true</autoBlockActive>
+      </externalConfiguration>
+    </repository>
+    <!-- Spring Snapshot and Milestone Repositories required for latest Spring Features -->
+    <repository>
+      <id>spring-snapshots</id>
+      <name>spring-snapshots</name>
+      <providerRole>org.sonatype.nexus.proxy.repository.Repository</providerRole>
+      <providerHint>maven2</providerHint>
+      <localStatus>IN_SERVICE</localStatus>
+      <notFoundCacheActive>true</notFoundCacheActive>
+      <notFoundCacheTTL>1440</notFoundCacheTTL>
+      <userManaged>true</userManaged>
+      <exposed>true</exposed>
+      <browseable>true</browseable>
+      <writePolicy>READ_ONLY</writePolicy>
+      <indexable>true</indexable>
+      <searchable>true</searchable>
+      <localStorage>
+        <provider>file</provider>
+      </localStorage>
+      <remoteStorage>
+        <url>https://repo.spring.io/snapshot/</url>
+      </remoteStorage>
+      <externalConfiguration>
+        <repositoryPolicy>SNAPSHOT</repositoryPolicy>
+        <checksumPolicy>WARN</checksumPolicy>
+        <fileTypeValidation>true</fileTypeValidation>
+        <downloadRemoteIndex>true</downloadRemoteIndex>
+        <artifactMaxAge>-1</artifactMaxAge>
+        <metadataMaxAge>1440</metadataMaxAge>
+        <itemMaxAge>1440</itemMaxAge>
+        <autoBlockActive>true</autoBlockActive>
+      </externalConfiguration>
+    </repository>
+    <repository>
+      <id>spring-milestones</id>
+      <name>spring-milestones</name>
+      <providerRole>org.sonatype.nexus.proxy.repository.Repository</providerRole>
+      <providerHint>maven2</providerHint>
+      <localStatus>IN_SERVICE</localStatus>
+      <notFoundCacheActive>true</notFoundCacheActive>
+      <notFoundCacheTTL>1440</notFoundCacheTTL>
+      <userManaged>true</userManaged>
+      <exposed>true</exposed>
+      <browseable>true</browseable>
+      <writePolicy>READ_ONLY</writePolicy>
+      <indexable>true</indexable>
+      <searchable>true</searchable>
+      <localStorage>
+        <provider>file</provider>
+      </localStorage>
+      <remoteStorage>
+        <url>https://repo.spring.io/milestone/</url>
+      </remoteStorage>
+      <externalConfiguration>
+        <repositoryPolicy>RELEASES</repositoryPolicy>
         <checksumPolicy>WARN</checksumPolicy>
         <fileTypeValidation>true</fileTypeValidation>
         <downloadRemoteIndex>true</downloadRemoteIndex>
