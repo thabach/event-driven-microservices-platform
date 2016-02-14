@@ -17,16 +17,23 @@ println ""
 
 createAdminNexusSpringRepoJob()
 
-createDockerAdminJob("docker-admin-version", "sudo /usr/bin/docker version")
-createDockerAdminJob("docker-admin-list-running-container", "sudo /usr/bin/docker ps")
-createDockerAdminJob("docker-admin-list-images", "sudo /usr/bin/docker images")
-createDockerAdminJob("docker-admin-build-jenkins-container", "cd jenkins && sudo /usr/bin/docker build -t jenkins .")
-createDockerAdminJob("docker-admin-start-jenkins-container", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins")
-createDockerAdminJob("docker-admin-stop-jenkins-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")')
+def edmpGitUrl="https://github.com/codecentric/event-driven-microservices-platform"
+createDockerJob("docker-admin-version", "sudo /usr/bin/docker version", edmpGitUrl)
+createDockerJob("docker-admin-list-running-container", "sudo /usr/bin/docker ps", edmpGitUrl)
+createDockerJob("docker-admin-list-images", "sudo /usr/bin/docker images", edmpGitUrl)
+createDockerJob("docker-admin-build-jenkins-container", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
+createDockerJob("docker-admin-start-jenkins-container", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
+createDockerJob("docker-admin-stop-jenkins-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
 
-createListViews("Admin Jobs", "Contains all admin jobs", "admin-.*")
-createListViews("Docker Admin Jobs", "Contains all docker admin jobs", "docker-admin-.*")
-createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
+def conferenceAppGitUrl="https://github.com/codecentric/conference-app"
+createDockerJob("docker-conferenceapp-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
+createDockerJob("docker-conferenceapp-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 jenkins", conferenceAppGitUrl)
+createDockerJob("docker-conferenceapp-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', conferenceAppGitUrl)
+
+createListViews("Admin", "Contains all admin jobs", "admin-.*")
+createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
+createListViews("Docker CnferencApp", "Contains all Conference App Docker jobs", "docker-conferenceapp-.*")
+createListViews("Seed", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
 println "############################################################################################################"
@@ -210,10 +217,10 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
   }
 }
 
-def createDockerAdminJob(def jobName, def shellCommand) {
+def createDockerJob(def jobName, def shellCommand, def gitRepository) {
 
   println "############################################################################################################"
-  println "Creating Docker Admin Job ${jobName}"
+  println "Creating Docker Job ${jobName} for gitRepository=${gitRepository}"
   println "############################################################################################################"
 
   job(jobName) {
@@ -223,7 +230,7 @@ def createDockerAdminJob(def jobName, def shellCommand) {
     scm {
       git {
         remote {
-          url("https://github.com/codecentric/event-driven-microservices-platform")
+          url(gitRepository)
         }
         createTag(false)
         clean()
