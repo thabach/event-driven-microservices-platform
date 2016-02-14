@@ -2,6 +2,13 @@
 
 More information to come ... stay tuned.
 
+## Related Projects
+
+- https://github.com/codecentric/edmp-monitoring
+- https://github.com/codecentric/edmp-config-server
+- https://github.com/codecentric/event-based-shopping-system
+- ...
+
 ## Prerequisites (Mac)
 
 You should have Docker Toolbox installed, see https://www.docker.com/toolbox
