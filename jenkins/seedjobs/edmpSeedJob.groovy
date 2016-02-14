@@ -32,7 +32,7 @@ createDockerJob("docker-conference-app-stop-container", 'sudo /usr/bin/docker st
 
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
-createListViews("Conference App", "Contains all Conference App Docker jobs", ".*-conference-app-.*")
+createListViews("Conference App", "Contains all Conference App Docker jobs", ".*conference-app-.*")
 createListViews("Seed", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
