@@ -17,14 +17,15 @@ println ""
 
 createAdminNexusSpringRepoJob()
 
-createDockerJob("admin-docker-version", "sudo /usr/bin/docker version")
-createDockerJob("admin-docker-list-running-container", "sudo /usr/bin/docker ps")
-createDockerJob("admin-docker-list-images", "sudo /usr/bin/docker images")
-createDockerJob("admin-docker-build-jenkins-container", "cd jenkins && sudo /usr/bin/docker build -t jenkins .")
-createDockerJob("admin-docker-start-jenkins-container", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins")
-createDockerJob("admin-docker-stop-jenkins-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")')
+createDockerAdminJob("docker-admin-version", "sudo /usr/bin/docker version")
+createDockerAdminJob("docker-admin-list-running-container", "sudo /usr/bin/docker ps")
+createDockerAdminJob("docker-admin-list-images", "sudo /usr/bin/docker images")
+createDockerAdminJob("docker-admin-build-jenkins-container", "cd jenkins && sudo /usr/bin/docker build -t jenkins .")
+createDockerAdminJob("docker-admin-start-jenkins-container", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins")
+createDockerAdminJob("docker-admin-stop-jenkins-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")')
 
-createListViews("Admin", "Contains all admin jobs", "admin-.*")
+createListViews("Admin Jobs", "Contains all admin jobs", "admin-.*")
+createListViews("Docker Admin Jobs", "Contains all docker admin jobs", "docker-admin-.*")
 createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
@@ -209,10 +210,10 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
   }
 }
 
-def createDockerJob(def jobName, def shellCommand) {
+def createDockerAdminJob(def jobName, def shellCommand) {
 
   println "############################################################################################################"
-  println "Creating Admin Job ${jobName}"
+  println "Creating Docker Admin Job ${jobName}"
   println "############################################################################################################"
 
   job(jobName) {
