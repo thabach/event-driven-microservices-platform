@@ -26,13 +26,13 @@ createDockerJob("docker-admin-start-jenkins-container", "sudo /usr/bin/docker ru
 createDockerJob("docker-admin-stop-jenkins-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
 
 def conferenceAppGitUrl="https://github.com/codecentric/conference-app"
-createDockerJob("docker-conferenceapp-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
-createDockerJob("docker-conferenceapp-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 jenkins", conferenceAppGitUrl)
-createDockerJob("docker-conferenceapp-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', conferenceAppGitUrl)
+createDockerJob("docker-conference-app-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
+createDockerJob("docker-conference-app-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
+createDockerJob("docker-conference-app-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', conferenceAppGitUrl)
 
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
-createListViews("Docker CnferencApp", "Contains all Conference App Docker jobs", "docker-conferenceapp-.*")
+createListViews("Conference App", "Contains all Conference App Docker jobs", ".*-conference-app-.*")
 createListViews("Seed", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
@@ -228,12 +228,16 @@ def createDockerJob(def jobName, def shellCommand, def gitRepository) {
         numToKeep(10)
     }
     scm {
-      git {
-        remote {
-          url(gitRepository)
+      if( "${jobName}".contains("conference-app") ) {
+        cloneWorkspace("${jobName}-app-1-ci")
+      } else {
+        git {
+          remote {
+            url(gitRepository)
+          }
+          createTag(false)
+          clean()
         }
-        createTag(false)
-        clean()
       }
     }
     steps {
