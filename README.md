@@ -1,4 +1,6 @@
-## Overview
+## Project Overview
+
+The following diagram gives a quick overview of the different tools we are using in this project.
 
 ![Overview](docs/overview.png)
 
