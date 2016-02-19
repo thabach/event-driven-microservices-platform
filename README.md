@@ -2,8 +2,6 @@
 
 ![Overview](docs/overview.png)
 
-![Details](docs/tools.png)
-
 More information to come ... stay tuned.
 
 ## Related Projects
