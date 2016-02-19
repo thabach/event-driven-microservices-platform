@@ -1,4 +1,6 @@
-## Work in progress
+## Overview
+
+![Overview](docs/overview.png)
 
 More information to come ... stay tuned.
 
