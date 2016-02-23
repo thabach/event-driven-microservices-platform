@@ -14,4 +14,8 @@
   "gitProjectName": "edmp-config-server",
   "gitRepositoryUrl": "https://github.com/codecentric/edmp-config-server",
   "rootWorkDirectory": ""
+}, {
+  "gitProjectName": "edmp-sample-app",
+  "gitRepositoryUrl": "https://github.com/codecentric/edmp-sample-app",
+  "rootWorkDirectory": ""
 }]
