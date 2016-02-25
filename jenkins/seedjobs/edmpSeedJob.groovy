@@ -19,24 +19,15 @@ def edmpGitUrl="https://github.com/codecentric/event-driven-microservices-platfo
 createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", edmpGitUrl)
 createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", edmpGitUrl)
 createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", edmpGitUrl)
-createDockerJob("docker-admin-build-jenkins-container", "", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
-createDockerJob("docker-admin-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
-createDockerJob("docker-admin-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
-
-createEdmpDockerJob("edmp-config-server", edmpGitUrl)
-createEdmpDockerJob("edmp-monitoring", edmpGitUrl)
-
-def conferenceAppGitUrl="https://github.com/codecentric/conference-app"
-def workspaceDirectory="conference-app-app-1-ci"
-createDockerJob("docker-conference-app-build-container", workspaceDirectory, "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
-createDockerJob("docker-conference-app-start-container", workspaceDirectory, "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
-createDockerJob("docker-conference-app-stop-container", workspaceDirectory, 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', conferenceAppGitUrl)
+createDockerJob("docker-test-build-jenkins-container", "", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
+createDockerJob("docker-test-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
+createDockerJob("docker-test-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
 
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
-createListViews("Conference App", "Contains all Conference App Docker jobs", ".*conference-app-.*")
-createListViews("Seed", "Contains all seed jobs", ".*-seed-job")
-createListViews("EDMP", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
+createListViews("Docker Tests", "Contains all docker admin jobs", "docker-test-.*")
+createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
+createListViews("EDMP Jobs", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
 println "############################################################################################################"
 println "Iterating all projects"
@@ -57,6 +48,7 @@ projects.each {
 
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
+  createDockerBuildJob(jobNamePrefix, it.gitProjectName, edmpGitUrl)
 }
 
 def createListViews(def title, def jobDescription, def reqularExpression) {
@@ -219,23 +211,23 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
   }
 }
 
-def createEdmpDockerJob(def projectName, def edmpGitUrl) {
+def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def gitUrl) {
   println "############################################################################################################"
-  println "Creating Docker Job ${projectName} for edmpGitUrl=${edmpGitUrl}"
+  println "Creating Docker Build Job ${jobNamePrefix} for gitProjectName=${gitProjectName}"
   println "############################################################################################################"
 
   job(jobName) {
     logRotator {
         numToKeep(10)
     }
-    scm {
+    multiscm {
       git {
-        remote {
-          url(edmpGitUrl)
+            remote {
+                url(gitUrl)
+            }
+            relativeTargetDir('event-driven-microservices-platform')
         }
-        createTag(false)
-        clean()
-      }
+        cloneWorkspace("${jobNamePrefix}-1-ci")
     }
     steps {
       steps {
@@ -246,7 +238,6 @@ def createEdmpDockerJob(def projectName, def edmpGitUrl) {
       chucknorris()
     }
   }
-
 }
 
 def createDockerJob(def jobName, def workspaceDir, def shellCommand, def gitRepository) {

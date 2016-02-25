@@ -1,29 +1,16 @@
 [{
-  "gitProjectName": "conference-app",
-  "gitRepositoryUrl": "https://github.com/codecentric/conference-app",
-  "rootWorkDirectory": "app",
-  "dockerEnvVars": ""
-}, {
-  "gitProjectName": "conference-app",
-  "gitRepositoryUrl": "https://github.com/codecentric/conference-app",
-  "rootWorkDirectory": "monitoring",
-  "dockerEnvVars": ""
-}, {
   "gitProjectName": "edmp-monitoring",
   "gitRepositoryUrl": "https://github.com/codecentric/edmp-monitoring",
   "rootWorkDirectory": "",
-  "dockerPort": "10001:8080",
-  "dockerEnvVars": ""
+  "dockerPort": "10001:8080"
 }, {
   "gitProjectName": "edmp-config-server",
   "gitRepositoryUrl": "https://github.com/codecentric/edmp-config-server",
   "rootWorkDirectory": "",
-  "dockerPort": "18888:8888",
-  "dockerEnvVars": ""
+  "dockerPort": "18888:8888"
 }, {
   "gitProjectName": "edmp-sample-app",
   "gitRepositoryUrl": "https://github.com/codecentric/edmp-sample-app",
   "rootWorkDirectory": "",
-  "dockerPort": "10002:8081",
-  "dockerEnvVars": "-e 'CONFIG_SERVER_PORT=18888'"
+  "dockerPort": "10002:8081"
 }]
