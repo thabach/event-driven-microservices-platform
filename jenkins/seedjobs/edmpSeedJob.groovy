@@ -226,17 +226,17 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def gitUrl) {
         numToKeep(10)
     }
     multiscm {
+      cloneWorkspace("${jobNamePrefix}-1-ci")
       git {
             remote {
                 url(gitUrl)
             }
             relativeTargetDir('event-driven-microservices-platform')
         }
-        cloneWorkspace("${jobNamePrefix}-1-ci")
     }
     steps {
       steps {
-        shell("sh jenkins/jobs/dockerscripts/${gitProjectName}.sh")
+        shell("sh event-driven-microservices-platform/jenkins/jobs/dockerscripts/${gitProjectName}.sh")
       }
     }
     publishers {
