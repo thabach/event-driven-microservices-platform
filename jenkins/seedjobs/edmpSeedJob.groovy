@@ -216,7 +216,7 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def gitUrl) {
   println "Creating Docker Build Job ${jobNamePrefix} for gitProjectName=${gitProjectName}"
   println "############################################################################################################"
 
-  job(jobName) {
+  job("${jobNamePrefix}-3-docker-build") {
     logRotator {
         numToKeep(10)
     }
