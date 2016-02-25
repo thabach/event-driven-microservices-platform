@@ -23,6 +23,9 @@ createDockerJob("docker-admin-build-jenkins-container", "", "cd jenkins && sudo 
 createDockerJob("docker-admin-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
 createDockerJob("docker-admin-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
 
+createEdmpDockerJob("edmp-config-server", edmpGitUrl)
+createEdmpDockerJob("edmp-monitoring", edmpGitUrl)
+
 def conferenceAppGitUrl="https://github.com/codecentric/conference-app"
 def workspaceDirectory="conference-app-app-1-ci"
 createDockerJob("docker-conference-app-build-container", workspaceDirectory, "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
@@ -214,6 +217,36 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
       chucknorris()
     }
   }
+}
+
+def createEdmpDockerJob(def projectName, def edmpGitUrl) {
+  println "############################################################################################################"
+  println "Creating Docker Job ${projectName} for edmpGitUrl=${edmpGitUrl}"
+  println "############################################################################################################"
+
+  job(jobName) {
+    logRotator {
+        numToKeep(10)
+    }
+    scm {
+      git {
+        remote {
+          url(edmpGitUrl)
+        }
+        createTag(false)
+        clean()
+      }
+    }
+    steps {
+      steps {
+        shell("sh jenkins/jobs/dockerscripts/${projectName}.sh")
+      }
+    }
+    publishers {
+      chucknorris()
+    }
+  }
+
 }
 
 def createDockerJob(def jobName, def workspaceDir, def shellCommand, def gitRepository) {

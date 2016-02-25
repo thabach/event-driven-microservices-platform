@@ -1,5 +1,7 @@
 FROM jenkins:1.642.1
 
+MAINTAINER Marcel Birkner <marcel.birkner@codecentric.de>
+
 USER root
 RUN apt-get update \
       && apt-get install -y sudo \
