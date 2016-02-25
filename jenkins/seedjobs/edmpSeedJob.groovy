@@ -231,7 +231,7 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def gitUrl) {
     }
     steps {
       steps {
-        shell("sh jenkins/jobs/dockerscripts/${projectName}.sh")
+        shell("sh jenkins/jobs/dockerscripts/${gitProjectName}.sh")
       }
     }
     publishers {
