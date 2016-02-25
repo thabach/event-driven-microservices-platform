@@ -207,6 +207,11 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
     }
     publishers {
       chucknorris()
+      downstreamParameterized {
+        trigger("${jobNamePrefix}-3-docker-build") {
+          currentBuild()
+        }
+      }
     }
   }
 }
