@@ -37,8 +37,11 @@ projects.each {
   println "############################################################################################################"
   println ""
   println "Creating Jenkins Jobs for Git Project: ${it.gitProjectName}"
-  println "- gitRepositoryUrl=${it.gitRepositoryUrl}"
-  println "- rootWorkDirectory=${it.rootWorkDirectory}"
+  println ""
+  println "- gitRepositoryUrl  = ${it.gitRepositoryUrl}"
+  println "- rootWorkDirectory = ${it.rootWorkDirectory}"
+  println "- dockerPort        = ${it.dockerPort}"
+  println "- successorProject  = ${it.successorProject}"
   println ""
 
   def jobNamePrefix = "${it.gitProjectName}"
@@ -49,6 +52,31 @@ projects.each {
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createDockerBuildJob(jobNamePrefix, it.gitProjectName, it.dockerPort)
+  createDockerStartJob(jobNamePrefix, it.gitProjectName, it.dockerPort, it.successorProject)
+
+  if( it.buildPipeline ) {
+    createBuildPipelineView("EDMP Build Pipeline", "EDMP Docker Container Demo", "${jobNamePrefix}-4-start-docker-container" )  
+  }
+}
+
+def createBuildPipelineView(def viewName, def title, def startJob) {
+  println "############################################################################################################"
+  println "Create buildPipelineView:"
+  println "- viewName   = ${viewName}"
+  println "- title      = ${title}"
+  println "- startJob   = ${startJob}"
+  println "############################################################################################################"
+
+  buildPipelineView(viewName) {
+    filterBuildQueue()
+    filterExecutors()
+    title(title)
+    displayedBuilds(5)
+    selectedJob(startJob)
+    alwaysAllowManualTrigger()
+    showPipelineParameters()
+    refreshFrequency(60)
+  }
 }
 
 def createListViews(def title, def jobDescription, def reqularExpression) {
@@ -238,6 +266,35 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def dockerPort) 
     }
     publishers {
       chucknorris()
+    }
+  }
+}
+
+def createDockerStartJob(def jobNamePrefix, def gitProjectName, def dockerPort, def successorProject) {
+  println "############################################################################################################"
+  println "Creating Docker Start Job ${jobNamePrefix} for gitProjectName=${gitProjectName}"
+  println "############################################################################################################"
+
+  job("${jobNamePrefix}-4-start-docker-container") {
+    logRotator {
+        numToKeep(10)
+    }
+    steps {
+      steps {
+        shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
+        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
+        shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=prodnetwork -p=${dockerPort} ${gitProjectName}")
+      }
+    }
+    publishers {
+      chucknorris()
+      if( "${successorProject}".size() > 0 ) {
+        downstreamParameterized {
+          trigger("${successorProject}-4-start-docker-container") {
+            currentBuild()
+          }
+        }
+      }
     }
   }
 }
