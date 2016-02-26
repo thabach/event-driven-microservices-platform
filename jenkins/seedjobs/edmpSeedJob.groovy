@@ -153,7 +153,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
 //        trigger("${jobNamePrefix}-2-sonar") {
 //          currentBuild()
 //        }
-      }
+//      }
     }
   }
 }
