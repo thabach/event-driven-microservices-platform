@@ -289,7 +289,7 @@ def createDockerStartJob(def jobNamePrefix, def gitProjectName, def dockerPort, 
     publishers {
       chucknorris()
       if( "${successorProject}".size() > 0 ) {
-        downstream("${successorProject}-4-start-docker-container", 'STABLE')
+        downstream("${successorProject}-4-start-docker-container", 'SUCCESS')
       }
     }
   }
