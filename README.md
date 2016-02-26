@@ -17,7 +17,7 @@ What are the tools used for?
 * Kafka / Zookeeper Server
   * Distributed Messaging System / Coordination System
 * Microservices Docker Container
-* Sample Message Driven Microservices
+  * Sample Message Driven Microservices
 
 ## Related Projects
 
