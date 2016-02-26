@@ -149,11 +149,11 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
         }
       }
       publishCloneWorkspace('**', '', 'Any', 'TAR', true, null)
-//      downstreamParameterized {
-//        trigger("${jobNamePrefix}-2-sonar") {
-//          currentBuild()
-//        }
-//      }
+      downstreamParameterized {
+        trigger("${jobNamePrefix}-2-sonar") {
+          currentBuild()
+        }
+      }
     }
   }
 }
