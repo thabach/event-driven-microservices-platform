@@ -10,8 +10,8 @@ More information to come ... stay tuned.
 
 - https://github.com/codecentric/edmp-monitoring
 - https://github.com/codecentric/edmp-config-server
+- https://github.com/codecentric/edmp-sample-app
 - https://github.com/codecentric/event-based-shopping-system
-- ...
 
 ## Prerequisites (Mac)
 
