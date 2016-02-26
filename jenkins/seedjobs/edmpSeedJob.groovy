@@ -55,22 +55,22 @@ projects.each {
   createDockerStartJob(jobNamePrefix, it.gitProjectName, it.dockerPort, it.successorProject)
 
   if( it.buildPipeline ) {
-    createBuildPipelineView("EDMP Build Pipeline", "EDMP Docker Container Demo", "${jobNamePrefix}-4-start-docker-container" )  
+    createBuildPipelineView("EDMP Build Pipeline", "EDMP Docker Container Demo", "${jobNamePrefix}-4-start-docker-container" )
   }
 }
 
-def createBuildPipelineView(def viewName, def title, def startJob) {
+def createBuildPipelineView(def viewName, def viewTitle, def startJob) {
   println "############################################################################################################"
   println "Create buildPipelineView:"
   println "- viewName   = ${viewName}"
-  println "- title      = ${title}"
+  println "- viewTitle  = ${viewTitle}"
   println "- startJob   = ${startJob}"
   println "############################################################################################################"
 
   buildPipelineView(viewName) {
     filterBuildQueue()
     filterExecutors()
-    title(title)
+    title("${viewTitle}")
     displayedBuilds(5)
     selectedJob(startJob)
     alwaysAllowManualTrigger()
