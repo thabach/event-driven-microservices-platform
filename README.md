@@ -4,7 +4,20 @@ The following diagram gives a quick overview of the different tools we are using
 
 ![Overview](docs/overview.png)
 
-More information to come ... stay tuned.
+What are the tools used for?
+
+* Jenkins
+  * Job DSL generates Build & Deploy Jobs for all Microservices
+  * Build & Deploys Microservices
+  * Builds / Starts / Stops Docker Container
+* Nexus
+  * Stores Build Artifacts
+* SonarQube
+  * Stories Static Code Analysis Results
+* Kafka / Zookeeper Server
+  * Distributed Messaging System / Coordination System
+* Microservices Docker Container
+* Sample Message Driven Microservices
 
 ## Related Projects
 
