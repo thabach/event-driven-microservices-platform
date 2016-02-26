@@ -52,9 +52,9 @@ projects.each {
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createDockerBuildJob(jobNamePrefix, it.gitProjectName, it.dockerPort)
-  createDockerStartJob(jobNamePrefix, it.gitProjectName, it.dockerPort, it.successorProject)
+  createDockerStartJob(it.isBuildPipelineStartJob, jobNamePrefix, it.gitProjectName, it.dockerPort, it.successorProject)
 
-  if( it.buildPipeline ) {
+  if( it.isBuildPipelineStartJob ) {
     createBuildPipelineView("EDMP Build Pipeline", "EDMP Docker Container Demo", "${jobNamePrefix}-4-start-docker-container" )
   }
 }
@@ -270,7 +270,7 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def dockerPort) 
   }
 }
 
-def createDockerStartJob(def jobNamePrefix, def gitProjectName, def dockerPort, def successorProject) {
+def createDockerStartJob(def isBuildPipelineStartJob, def jobNamePrefix, def gitProjectName, def dockerPort, def successorProject) {
   println "############################################################################################################"
   println "Creating Docker Start Job ${jobNamePrefix} for gitProjectName=${gitProjectName}"
   println "############################################################################################################"
@@ -281,6 +281,10 @@ def createDockerStartJob(def jobNamePrefix, def gitProjectName, def dockerPort, 
     }
     steps {
       steps {
+        if( isBuildPipelineStartJob ) {
+          println "Creating initial network. Skip if prodnetwork already exists"
+          shell("docker network create --driver bridge prodnetwork | true")
+        }
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
         shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=prodnetwork -p=${dockerPort} ${gitProjectName}")

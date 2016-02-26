@@ -4,7 +4,7 @@
   "rootWorkDirectory": "",
   "dockerPort": "18888:8888",
   "successorProject": "edmp-monitoring",
-  "buildPipeline": true
+  "isBuildPipelineStartJob": true
 }, {
   "gitProjectName": "edmp-monitoring",
   "gitRepositoryUrl": "https://github.com/codecentric/edmp-monitoring",
