@@ -13,7 +13,7 @@ What are the tools used for?
 * Nexus
   * Stores Build Artifacts
 * SonarQube
-  * Stories Static Code Analysis Results
+  * Stores Static Code Analysis Results
 * Kafka / Zookeeper Server
   * Distributed Messaging System / Coordination System
 * Microservices Docker Container
