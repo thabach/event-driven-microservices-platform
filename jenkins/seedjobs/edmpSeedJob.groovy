@@ -24,10 +24,9 @@ createDockerJob("docker-test-start-jenkins-container", "", "sudo /usr/bin/docker
 createDockerJob("docker-test-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
 createDockerJob("docker-create-network", "", "sudo /usr/bin/docker network create --driver bridge prodnetwork", edmpGitUrl)
 
-createListViews("Admin", "Contains all admin jobs", "admin-.*")
+createListViews("Admin", "Contains all admin jobs", ".*admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
 createListViews("Docker Tests", "Contains all docker admin jobs", "docker-test-.*")
-createListViews("Seed Jobs", "Contains all seed jobs", ".*-seed-job")
 createListViews("EDMP Jobs", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
 println "############################################################################################################"
@@ -232,7 +231,7 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def dockerPort) 
     steps {
       steps {
         shell("sudo /usr/bin/docker build -t ${gitProjectName} .")
-        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}')")
+        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
         shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=prodnetwork -p=${dockerPort} ${gitProjectName}")
       }
     }
