@@ -22,6 +22,7 @@ createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", e
 createDockerJob("docker-test-build-jenkins-container", "", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
 createDockerJob("docker-test-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
 createDockerJob("docker-test-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
+createDockerJob("docker-create-network", "", "sudo /usr/bin/docker network create --driver bridge prodnetwork", edmpGitUrl)
 
 createListViews("Admin", "Contains all admin jobs", "admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
@@ -48,7 +49,7 @@ projects.each {
 
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
-  createDockerBuildJob(jobNamePrefix, it.gitProjectName, edmpGitUrl)
+  createDockerBuildJob(jobNamePrefix, it.gitProjectName, it.dockerPort)
 }
 
 def createListViews(def title, def jobDescription, def reqularExpression) {
@@ -148,10 +149,10 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
         }
       }
       publishCloneWorkspace('**', '', 'Any', 'TAR', true, null)
-      downstreamParameterized {
-        trigger("${jobNamePrefix}-2-sonar") {
-          currentBuild()
-        }
+//      downstreamParameterized {
+//        trigger("${jobNamePrefix}-2-sonar") {
+//          currentBuild()
+//        }
       }
     }
   }
@@ -216,7 +217,7 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
   }
 }
 
-def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def gitUrl) {
+def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def dockerPort) {
   println "############################################################################################################"
   println "Creating Docker Build Job ${jobNamePrefix} for gitProjectName=${gitProjectName}"
   println "############################################################################################################"
@@ -225,18 +226,14 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def gitUrl) {
     logRotator {
         numToKeep(10)
     }
-    multiscm {
+    scm {
       cloneWorkspace("${jobNamePrefix}-1-ci")
-      git {
-            remote {
-                url(gitUrl)
-            }
-            relativeTargetDir('event-driven-microservices-platform')
-        }
     }
     steps {
       steps {
-        shell("sh event-driven-microservices-platform/jenkins/jobs/dockerscripts/${gitProjectName}.sh")
+        shell("sudo /usr/bin/docker build -t ${gitProjectName} .")
+        shell("sudo /usr/bin/docker rm $(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}')")
+        shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=prodnetwork -p=${dockerPort} ${gitProjectName}")
       }
     }
     publishers {
