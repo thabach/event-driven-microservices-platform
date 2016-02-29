@@ -1,20 +1,8 @@
 [{
-  "gitProjectName": "edmp-config-server",
-  "gitRepositoryUrl": "https://github.com/codecentric/edmp-config-server",
-  "rootWorkDirectory": "",
-  "dockerPort": "18888:8888",
-  "successorProject": "edmp-monitoring",
-  "isBuildPipelineStartJob": true
-}, {
-  "gitProjectName": "edmp-monitoring",
-  "gitRepositoryUrl": "https://github.com/codecentric/edmp-monitoring",
-  "rootWorkDirectory": "",
-  "dockerPort": "10001:8080",
-  "successorProject": "edmp-sample-app"
-}, {
   "gitProjectName": "edmp-sample-app",
   "gitRepositoryUrl": "https://github.com/codecentric/edmp-sample-app",
   "rootWorkDirectory": "",
   "dockerPort": "10002:8081",
-  "successorProject": ""
+  "successorProject": "",
+  "isBuildPipelineStartJob": true
 }]

@@ -22,7 +22,6 @@ createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", e
 createDockerJob("docker-test-build-jenkins-container", "", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
 createDockerJob("docker-test-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
 createDockerJob("docker-test-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
-createDockerJob("docker-create-network", "", "sudo /usr/bin/docker network create --driver bridge prodnetwork", edmpGitUrl)
 
 createListViews("Admin", "Contains all admin jobs", ".*admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
@@ -123,7 +122,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
     }
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
-      stringParam("REPOSITORY_URL", "http://\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_ADDR}:\${EVENTDRIVENMICROSERVICESPLATFORM_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
+      stringParam("REPOSITORY_URL", "http://nexus:8081/nexus/content/repositories/releases/", "Nexus Release Repository URL")
     }
     scm {
       git {
