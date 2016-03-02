@@ -21,6 +21,8 @@ services:
       - "18888:8888"
     networks:
       - prodnetwork
+    environment:
+      CONFIG_REPO: "${CONFIG_REPO}"
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
