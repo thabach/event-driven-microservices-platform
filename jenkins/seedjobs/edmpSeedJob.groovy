@@ -17,9 +17,10 @@ println ""
 
 def edmpGitUrl="https://github.com/codecentric/event-driven-microservices-platform"
 globalProdNetwork="eventdrivenmicroservicesplatform_prodnetwork"
-createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", edmpGitUrl)
-createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", edmpGitUrl)
-createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", edmpGitUrl)
+createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", "")
+createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", "")
+createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", "")
+createDockerJob("docker-admin-list-networks", "", "sudo /usr/bin/docker network ls", "")
 createDockerJob("docker-test-build-jenkins-container", "", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
 createDockerJob("docker-test-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
 createDockerJob("docker-test-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
@@ -313,12 +314,14 @@ def createDockerJob(def jobName, def workspaceDir, def shellCommand, def gitRepo
       if( "${workspaceDir}".size() > 0 ) {
         cloneWorkspace("${workspaceDir}")
       } else {
-        git {
-          remote {
-            url(gitRepository)
+        if( "${gitRepository}".size() > 0 ) {
+          git {
+            remote {
+              url(gitRepository)
+            }
+            createTag(false)
+            clean()
           }
-          createTag(false)
-          clean()
         }
       }
     }
