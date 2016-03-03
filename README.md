@@ -2,7 +2,7 @@
 
 The following diagram gives a quick overview of the different tools we are using in this project.
 
-![Overview](docs/overview.png)
+![Overview](https://raw.githubusercontent.com/codecentric/event-driven-microservices-platform/master/docs/overview.png)
 
 What are the tools used for?
 
@@ -82,6 +82,13 @@ To get all docker containers up and running use:
 $ git clone git@github.com:codecentric/event-driven-microservices-platform.git
 $ cd event-driven-microservices-platform
 $ docker-compose up
+```
+
+For local development build the local images first and start them using:
+
+```
+$ docker-compose build -f docker-compose-dev.yml
+$ docker-compose up -f docker-compose-dev.yml
 ```
 
 ## Tools

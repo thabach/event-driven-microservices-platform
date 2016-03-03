@@ -10,13 +10,13 @@ volumes:
 
 services:
   edmp-monitoring:
-    image: codecentric/edmp-monitoring
+    build: ./edmp-monitoring
     ports:
       - "10001:8080"
     networks:
       - prodnetwork
   edmp-config-server:
-    image: codecentric/edmp-config-server
+    build: ./edmp-config-server
     ports:
       - "18888:8888"
     networks:
@@ -55,12 +55,12 @@ services:
       - prodnetwork
 
   nexus:
-    image: codecentric/edmp-nexus
+    build: ./nexus
     ports:
       - "18081:8081"
 
   jenkins:
-    image: codecentric/edmp-jenkins
+    build: ./jenkins
     ports:
       - "18080:8080"
     links:
@@ -80,7 +80,7 @@ services:
       - "5000:5000"
 
   sonar:
-    image: codecentric/edmp-sonar
+    build: ./sonar
     ports:
      - "19000:9000"
     environment:

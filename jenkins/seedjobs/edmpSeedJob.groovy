@@ -16,6 +16,7 @@ println "Create Default Views and Admin Jobs"
 println ""
 
 def edmpGitUrl="https://github.com/codecentric/event-driven-microservices-platform"
+def globalProdNetwork="eventdrivenmicroservicesplatform_prodnetwork"
 createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", edmpGitUrl)
 createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", edmpGitUrl)
 createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", edmpGitUrl)
@@ -260,7 +261,7 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def dockerPort) 
         shell("sudo /usr/bin/docker build -t ${gitProjectName} .")
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
-        shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=prodnetwork -p=${dockerPort} ${gitProjectName}")
+        shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=${globalProdNetwork} -p=${dockerPort} ${gitProjectName}")
       }
     }
     publishers {
@@ -282,11 +283,11 @@ def createDockerStartJob(def isBuildPipelineStartJob, def jobNamePrefix, def git
       steps {
         if( isBuildPipelineStartJob ) {
           println "Creating initial network. Skip if prodnetwork already exists"
-          shell("docker network create --driver bridge prodnetwork | true")
+          shell("docker network create --driver bridge ${globalProdNetwork} | true")
         }
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
-        shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=prodnetwork -p=${dockerPort} ${gitProjectName}")
+        shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=${globalProdNetwork} -p=${dockerPort} ${gitProjectName}")
       }
     }
     publishers {
