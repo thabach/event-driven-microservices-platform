@@ -16,7 +16,7 @@ println "Create Default Views and Admin Jobs"
 println ""
 
 def edmpGitUrl="https://github.com/codecentric/event-driven-microservices-platform"
-def globalProdNetwork="eventdrivenmicroservicesplatform_prodnetwork"
+globalProdNetwork="eventdrivenmicroservicesplatform_prodnetwork"
 createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", edmpGitUrl)
 createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", edmpGitUrl)
 createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", edmpGitUrl)

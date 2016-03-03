@@ -87,8 +87,8 @@ $ docker-compose up
 For local development build the local images first and start them using:
 
 ```
-$ docker-compose build -f docker-compose-dev.yml
-$ docker-compose up -f docker-compose-dev.yml
+$ docker-compose -f docker-compose-dev.yml build
+$ docker-compose -f docker-compose-dev.yml up
 ```
 
 ## Tools
