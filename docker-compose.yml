@@ -39,10 +39,13 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
       KAFKA_CREATE_TOPICS: "test:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zk:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - prodnetwork
+    depends_on:
+      - zookeeper
   kafka-manager:
     image: sheepkiller/kafka-manager
     ports:
@@ -53,6 +56,8 @@ services:
       ZK_HOSTS: zk:2181
     networks:
       - prodnetwork
+    depends_on:
+      - zookeeper
 
   nexus:
     image: codecentric/edmp-nexus
