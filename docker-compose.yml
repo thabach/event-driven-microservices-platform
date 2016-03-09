@@ -60,12 +60,12 @@ services:
       - zookeeper
 
   nexus:
-    image: codecentric/edmp-nexus
+    image: codecentric/edmp-nexus:0.1
     ports:
       - "18081:8081"
 
   jenkins:
-    image: codecentric/edmp-jenkins
+    image: codecentric/edmp-jenkins:0.1
     ports:
       - "18080:8080"
     links:
@@ -85,7 +85,7 @@ services:
       - "5000:5000"
 
   sonar:
-    image: codecentric/edmp-sonar
+    image: codecentric/edmp-sonar:0.1
     ports:
      - "19000:9000"
     environment:
