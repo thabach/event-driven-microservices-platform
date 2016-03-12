@@ -140,7 +140,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
       preBuildCleanup()
     }
     triggers {
-      scm('5/H * * * *')
+      scm('H/5 * * * *')
       githubPush()
     }
     steps {
