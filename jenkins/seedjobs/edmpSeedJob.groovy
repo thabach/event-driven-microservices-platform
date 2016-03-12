@@ -21,7 +21,7 @@ createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", "")
 createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", "")
 createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", "")
 createDockerJob("docker-admin-list-networks", "", "sudo /usr/bin/docker network ls", "")
-createDockerJob("edmp-sample-app-redis", "", "sudo /usr/bin/docker run --name edmp-sample-app-redis --net=${globalProdNetwork} -d redis", "")
+createDockerJob("edmp-sample-app-redis", "", "(sudo /usr/bin/docker stop edmp-sample-app-redis | true) && (sudo /usr/bin/docker rm edmp-sample-app-redis | true) && sudo /usr/bin/docker run -d --name edmp-sample-app-redis --net=${globalProdNetwork} redis", "")
 
 createListViews("Admin", "Contains all admin jobs", ".*admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
