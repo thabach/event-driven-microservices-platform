@@ -21,13 +21,9 @@ createDockerJob("docker-admin-version", "", "sudo /usr/bin/docker version", "")
 createDockerJob("docker-admin-list-running-container", "", "sudo /usr/bin/docker ps", "")
 createDockerJob("docker-admin-list-images", "", "sudo /usr/bin/docker images", "")
 createDockerJob("docker-admin-list-networks", "", "sudo /usr/bin/docker network ls", "")
-createDockerJob("docker-test-build-jenkins-container", "", "cd jenkins && sudo /usr/bin/docker build -t jenkins .", edmpGitUrl)
-createDockerJob("docker-test-start-jenkins-container", "", "sudo /usr/bin/docker run -d --name edmp_jenkins -p=28080:8080 jenkins", edmpGitUrl)
-createDockerJob("docker-test-stop-jenkins-container", "", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=edmp_jenkins")', edmpGitUrl)
 
 createListViews("Admin", "Contains all admin jobs", ".*admin-.*")
 createListViews("Docker Admin", "Contains all docker admin jobs", "docker-admin-.*")
-createListViews("Docker Tests", "Contains all docker admin jobs", "docker-test-.*")
 createListViews("EDMP Jobs", "Contains all Event Driven Microservices Platform jobs", "edmp-.*")
 
 println "############################################################################################################"
@@ -42,7 +38,6 @@ projects.each {
   println "- gitRepositoryUrl  = ${it.gitRepositoryUrl}"
   println "- rootWorkDirectory = ${it.rootWorkDirectory}"
   println "- dockerPort        = ${it.dockerPort}"
-  println "- successorProject  = ${it.successorProject}"
   println ""
 
   def jobNamePrefix = "${it.gitProjectName}"
@@ -53,11 +48,7 @@ projects.each {
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createDockerBuildJob(jobNamePrefix, it.gitProjectName, it.dockerPort)
-  createDockerStartJob(it.isBuildPipelineStartJob, jobNamePrefix, it.gitProjectName, it.dockerPort, it.successorProject)
 
-  if( it.isBuildPipelineStartJob ) {
-    createBuildPipelineView("EDMP Build Pipeline", "EDMP Docker Container Demo", "${jobNamePrefix}-4-start-docker-container" )
-  }
 }
 
 def createBuildPipelineView(def viewName, def viewTitle, def startJob) {
@@ -267,35 +258,6 @@ def createDockerBuildJob(def jobNamePrefix, def gitProjectName, def dockerPort) 
     }
     publishers {
       chucknorris()
-    }
-  }
-}
-
-def createDockerStartJob(def isBuildPipelineStartJob, def jobNamePrefix, def gitProjectName, def dockerPort, def successorProject) {
-  println "############################################################################################################"
-  println "Creating Docker Start Job ${jobNamePrefix} for gitProjectName=${gitProjectName}"
-  println "############################################################################################################"
-
-  job("${jobNamePrefix}-4-start-docker-container") {
-    logRotator {
-        numToKeep(10)
-    }
-    steps {
-      steps {
-        if( isBuildPipelineStartJob ) {
-          println "Creating initial network. Skip if prodnetwork already exists"
-          shell("docker network create --driver bridge ${globalProdNetwork} | true")
-        }
-        shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
-        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter='name=${gitProjectName}') | true")
-        shell("sudo /usr/bin/docker run -d --name ${gitProjectName} --net=${globalProdNetwork} -p=${dockerPort} ${gitProjectName}")
-      }
-    }
-    publishers {
-      chucknorris()
-      if( "${successorProject}".size() > 0 ) {
-        downstream("${successorProject}-4-start-docker-container", 'SUCCESS')
-      }
     }
   }
 }
