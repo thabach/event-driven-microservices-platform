@@ -42,7 +42,7 @@ projects.each {
   println ""
 
   def jobNamePrefix = "${it.gitProjectName}"
-  if( it.rootWorkDirectory.size() > 0 ) {
+  if( it.rootWorkDirectory != null ) {
     jobNamePrefix = "${it.gitProjectName}-${it.rootWorkDirectory}"
   }
 
