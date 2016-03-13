@@ -139,7 +139,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
       maven {
           goals('clean versions:set -DnewVersion=\${BUILD_NUMBER} -U')
           mavenInstallation('Maven 3.3.3')
-          if( "${rootWorkDirectory}".size() > 0 ) {
+          if( "${rootWorkDirectory}" != null ) {
             rootPOM("${rootWorkDirectory}/pom.xml")
           } else {
             rootPOM("pom.xml")
@@ -150,7 +150,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
       maven {
         goals('clean deploy -U -DaltDeploymentRepository=nexus-release-repository::default::$REPOSITORY_URL')
         mavenInstallation('Maven 3.3.3')
-        if( "${rootWorkDirectory}".size() > 0 ) {
+        if( "${rootWorkDirectory}" != null ) {
           rootPOM("${rootWorkDirectory}/pom.xml")
         } else {
           rootPOM("pom.xml")
@@ -206,7 +206,7 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
       maven {
         goals('org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar -U')
         mavenInstallation('Maven 3.3.3')
-        if( "${rootWorkDirectory}".size() > 0 ) {
+        if( "${rootWorkDirectory}" != null ) {
           rootPOM("${rootWorkDirectory}/pom.xml")
         } else {
           rootPOM("pom.xml")
@@ -217,7 +217,7 @@ def createSonarJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, 
       maven {
         goals('sonar:sonar -Psonar -U')
         mavenInstallation('Maven 3.3.3')
-        if( "${rootWorkDirectory}".size() > 0 ) {
+        if( "${rootWorkDirectory}" != null ) {
           rootPOM("${rootWorkDirectory}/pom.xml")
         } else {
           rootPOM("pom.xml")
