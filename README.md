@@ -100,6 +100,34 @@ $ cd event-driven-microservices-platform
 $ docker-compose up
 ```
 
+If you want to use your own Github repository for the EDMP configuration file and the Spring Cloud Config Server property files you have to change two lines in the docker-compose.yml. First, change the CONFIG_REPO environment variable for the edmp-config-server according to your needs:
+```
+  edmp-config-server:
+    image: codecentric/edmp-config-server
+    ports:
+      - "18888:8888"
+    networks:
+      - prodnetwork
+    environment:
+      CONFIG_REPO: "https://github.com/codecentric/event-driven-microservices-platform-config.git"
+```
+Then, change the EDMP_CONFIG_URL environment variable for jenkins according to your needs:
+```
+  jenkins:
+    image: codecentric/edmp-jenkins:0.1
+    ports:
+      - "18080:8080"
+    links:
+      - nexus:nexus
+      - sonar:sonar
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/bin/docker
+    environment:
+      EDMP_CONFIG_URL: "https://raw.githubusercontent.com/codecentric/event-driven-microservices-platform-config/master/edmp-project-configuration.json"
+```
+
+
 For local development build the local images first and start them using:
 
 ```
