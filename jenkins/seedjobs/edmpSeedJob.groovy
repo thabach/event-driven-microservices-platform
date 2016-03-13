@@ -139,7 +139,7 @@ def createCIJob(def jobNamePrefix, def gitProjectName, def gitRepositoryUrl, def
       maven {
           goals('clean versions:set -DnewVersion=\${BUILD_NUMBER} -U')
           mavenInstallation('Maven 3.3.3')
-          if( "${rootWorkDirectory}" != null ) {
+          if( !"${rootWorkDirectory}".equals("null") ) {
             rootPOM("${rootWorkDirectory}/pom.xml")
           } else {
             rootPOM("pom.xml")
