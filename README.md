@@ -155,7 +155,7 @@ $ docker-compose -f docker-compose-dev.yml up
 **Solution**
 
 ```
-# Add nameserver to DNS
+# Add nameserver to DNS (probably need to do "sudo su" first)
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
 # Restart the environment
@@ -164,6 +164,12 @@ $ docker-machine restart default
 # Refresh your environment settings
 $ eval $(docker-machine env default)
 ```
+I also needed to do this inside the docker-machine:
+```
+$ docker-machine ssh default
+$ echo "nameserver 8.8.8.8" > /etc/resolv.conf
+```
+
 
 ### No Internet Connection from Docker Container
 
