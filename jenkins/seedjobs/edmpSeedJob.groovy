@@ -49,6 +49,8 @@ projects.each {
   createCIJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createSonarJob(jobNamePrefix, it.gitProjectName, it.gitRepositoryUrl, it.rootWorkDirectory)
   createDockerBuildJob(jobNamePrefix, it.gitProjectName, it.dockerPort)
+  def jobNameStop = jobNamePrefix + "-4-stop"
+  createDockerJob(jobNameStop, "", "sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter='name=${it.gitProjectName}') | true", "")
 
 }
 
