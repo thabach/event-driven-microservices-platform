@@ -15,15 +15,6 @@ services:
       - "10001:8080"
     networks:
       - prodnetwork
-  edmp-config-server:
-    build: ./edmp-config-server
-    ports:
-      - "18888:8888"
-    networks:
-      - prodnetwork
-    environment:
-      # CONFIG_REPO: "${CONFIG_REPO}"
-      CONFIG_REPO: "https://github.com/codecentric/event-driven-microservices-platform-config.git"
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
