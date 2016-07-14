@@ -140,7 +140,7 @@ $ docker-compose -f docker-compose-dev.yml up
 | *Tool* | *Link* | *Credentials* |
 | ------------- | ------------- | ------------- |
 | Jenkins | http://${docker-machine ip default}:18080/ | no login required |
-| SonarQube | http://${docker-machine ip default}:9000/ | admin/admin |
+| SonarQube | http://${docker-machine ip default}:19000/ | admin/admin |
 | Nexus | http://${docker-machine ip default}:18081/nexus | admin/admin123 |
 | Docker Registry | http://${docker-machine ip default}:5000/ | |
 | Spring Boot Admin | http://${docker-machine ip default}:10001/ | |
