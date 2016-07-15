@@ -145,6 +145,7 @@ $ docker-compose -f docker-compose-dev.yml up
 | Docker Registry | http://${docker-machine ip default}:5000/ | |
 | Spring Boot Admin | http://${docker-machine ip default}:10001/ | |
 | Spring Cloud Config Server | http://${docker-machine ip default}:18888/${applicationname}/master | |
+| Kafka Manager | http://${docker-machine ip default}:29000/ | |
 
 ## FAQ
 
