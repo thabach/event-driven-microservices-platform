@@ -23,7 +23,7 @@ services:
       - "7209:7209"
     environment:
       JMX_PORT: 7209
-      ADVERTISED_HOST: 192.168.99.100
+      ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
     networks:
       - prodnetwork
